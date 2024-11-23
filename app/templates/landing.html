@@ -2,4 +2,9 @@
 {% block title %}Landing Page{% endblock %}
 {% block content %}
 <h1>Welcome to Flask PWA</h1>
+{% if username %}
+    <p>Hello, {{ username }}! Welcome back.</p>
+{% else %}
+    <p>Please <a href="{{ url_for('main.login') }}">log in</a> or <a href="{{ url_for('main.register') }}">register</a>.</p>
+{% endif %}
 {% endblock %}
