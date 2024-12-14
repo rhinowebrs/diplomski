@@ -7,20 +7,32 @@ from app.models import User
 
 main = Blueprint('main', __name__)
 
+
 @main.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        new_user = User(
-            username=form.username.data,
-            email=form.email.data,
-            password=hashed_password
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Account created successfully', 'success')
-        return redirect(url_for('main.login'))
+        # Check if username or email already exists
+        existing_user_by_username = User.query.filter_by(username=form.username.data).first()
+        existing_user_by_email = User.query.filter_by(email=form.email.data).first()
+
+        if existing_user_by_username:
+            flash('Username already exists. Please choose a different one.', 'danger')
+        elif existing_user_by_email:
+            flash('Email already exists. Please use a different email address.', 'danger')
+        else:
+            # Proceed to create a new user
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            new_user = User(
+                username=form.username.data,
+                email=form.email.data,
+                password=hashed_password
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account created successfully', 'success')
+            return redirect(url_for('main.login'))
+
     return render_template('register.html', form=form)
 
 @main.route('/login', methods=['GET', 'POST'])
