@@ -37,7 +37,7 @@ def register():
         # Flash validation errors
         for field, error_messages in form.errors.items():
             for error in error_messages:
-                flash(f"{field.capitalize()} Error: {error}", 'danger')
+                flash(f"{error}", 'danger')
 
     return render_template('register.html', form=form)
 
@@ -60,7 +60,7 @@ def login():
     elif form.errors:
         for field, error_messages in form.errors.items():
             for err in error_messages:
-                flash(f'{field.capitalize()} Error: {err}', 'danger')
+                flash(f'{err}', 'danger')
 
     return render_template('login.html', form=form)
 
