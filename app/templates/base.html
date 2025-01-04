@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Flask App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resetstyle.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
@@ -11,7 +12,8 @@
         <nav>
             {% if current_user.is_authenticated %}
             <div class="nav-left">
-                <a href="{{ url_for('main.landing') }}">RD-Password</a>
+                <img src="{{ url_for('static', filename='img/logo.png') }}">
+                <a href="{{ url_for('main.landing') }}">RD Password</a>
             </div>
             <div class="nav-right">
                 <a href="{{ url_for('main.landing') }}">Dashboard</a>

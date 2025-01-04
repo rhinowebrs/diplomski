@@ -31,10 +31,17 @@ header nav {
 
 }
 
+.nav-left img {
+
+    height: 30px;
+
+}
+
 .nav-left a {
     color: #0a0a0a;
     text-decoration: none;
-    font-size: 24px;
+    font-size: 20px;
+    padding-left: 10px;
     font-weight: bold;
 }
 
@@ -81,6 +88,55 @@ main {
 
 }
 
+.dashboard-top {
+
+    width: 90%;
+    height: 120px;
+    margin: 50px auto;
+    background: linear-gradient(to right, #F1B07F, #C351C1, #4157CE);
+    border-radius: 15px;
+    display: flex;
+
+}
+
+.dashboard-top .left {
+
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding-left: 30px;
+    justify-content: center;
+    text-align: left;
+
+}
+
+.dashboard-top .right {
+
+    width: 40%;
+
+}
+
+.dashboard-top .left h2 {
+
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+
+}
+
+.dashboard-top .left p {
+
+    color: #eee;
+    font-size: 16px;
+    font-weight: normal;
+
+}
+
+/*FORMS*/
+
 .form-container {
     width: 300px;
     margin: 50px auto;
@@ -90,7 +146,7 @@ main {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+.form-container h2 {
     text-align: center;
     margin-bottom: 20px;
 }
@@ -127,7 +183,7 @@ h2 {
     background: #0056b3;
 }
 
-p {
+.form-container p {
     text-align: center;
     margin-top: 15px;
 }
