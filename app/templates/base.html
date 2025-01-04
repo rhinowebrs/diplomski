@@ -14,7 +14,8 @@
                 <a href="{{ url_for('main.landing') }}">RD-Password</a>
             </div>
             <div class="nav-right">
-                <a href="{{ url_for('main.landing') }}">Home</a>
+                <a href="{{ url_for('main.landing') }}">Dashboard</a>
+                <a href="{{ url_for('main.passwords') }}">Passwords</a>
                 <a href="{{ url_for('main.logout') }}">Logout</a>
             </div>
 
@@ -30,6 +31,8 @@
         </nav>
     </header>
     <main>
+        <div class="sidepanel"></div>
+        <div class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-messages">
@@ -42,6 +45,7 @@
             {% endif %}
         {% endwith %}
         {% block content %}{% endblock %}
+        </div>
     </main>
 </body>
 </html>

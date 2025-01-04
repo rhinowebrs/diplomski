@@ -85,3 +85,8 @@ def logout():
 @login_required
 def landing():
     return render_template('landing.html', username=current_user.username)
+
+@main.route('/passwords')
+@login_required
+def passwords():
+    return render_template('passwords.html', username=current_user.username)
