@@ -6,6 +6,9 @@ from app import db, bcrypt
 from app.forms import RegisterForm, LoginForm
 from app.models import User
 
+from sqlalchemy import or_
+
+
 main = Blueprint('main', __name__)
 
 
@@ -42,13 +45,18 @@ def register():
     return render_template('register.html', form=form)
 
 
-
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        # Attempt to find user by email OR username
+        user = User.query.filter(
+            or_(User.email == form.email.data, User.username == form.email.data)
+        ).first()
+
+        # Check if the user was found
         if user:
+            # Compare provided password with the hashed password in DB
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash('Logged in successfully!', 'success')
@@ -56,7 +64,8 @@ def login():
             else:
                 flash('Password incorrect.', 'danger')
         else:
-            flash('No account found with this email. Please check the email address.', 'danger')
+            flash('No account found with this email/username.', 'danger')
+
     elif form.errors:
         for field, error_messages in form.errors.items():
             for err in error_messages:
