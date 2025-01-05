@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Flask App{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/resetstyle.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://kit.fontawesome.com/391c04f0d7.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -25,9 +27,6 @@
                         <p>Administrator</p>
                     </div>
                 </div>
-<!--                <a href="{{ url_for('main.landing') }}">Dashboard</a>-->
-<!--                <a href="{{ url_for('main.passwords') }}">Passwords</a>-->
-<!--                <a href="{{ url_for('main.logout') }}">Logout</a>-->
             </div>
 
             {% else %}
@@ -37,8 +36,32 @@
     </header>
     <main>
         <div class="sidepanel">
-            <div class="sidepanel-item"></div>
-            <div class="sidepanel-item"></div>
+            <div class="sidepanel-item">
+                <i class="fa-solid fa-gauge active"></i> <a class="active" href="{{ url_for('main.landing') }}">Dashboard</a>
+            </div>
+            <div class="sidepanel-item">
+                <i class="fa-solid fa-lock"></i>
+                <a href="{{ url_for('main.passwords') }}">Passwords</a>
+            </div>
+                <div class="sidepanel-item">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <a href="#">Security</a>
+                </div>
+
+                <div class="sidepanel-item">
+                    <i class="fa-solid fa-key"></i>
+                    <a href="#">Generate Password</a>
+                </div>
+
+                <div class="sidepanel-item">
+                    <i class="fa-solid fa-shield-alt"></i>
+                    <a href="#">Password Health</a>
+                </div>
+
+                <div class="sidepanel-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <a href="#">Settings</a>
+                </div>
             <a class="sidepanel-item-last" href="#">Logout</a>
         </div>
         <div class="container">
