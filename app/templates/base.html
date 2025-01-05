@@ -16,24 +16,31 @@
                 <a href="{{ url_for('main.landing') }}">RD Password</a>
             </div>
             <div class="nav-right">
-                <a href="{{ url_for('main.landing') }}">Dashboard</a>
-                <a href="{{ url_for('main.passwords') }}">Passwords</a>
-                <a href="{{ url_for('main.logout') }}">Logout</a>
+                <div>
+                    <div class="left">
+                        <img src="{{ url_for('static', filename='img/person.jpg') }}">
+                    </div>
+                    <div class="right">
+                        <h2>James Carter</h2>
+                        <p>Administrator</p>
+                    </div>
+                </div>
+<!--                <a href="{{ url_for('main.landing') }}">Dashboard</a>-->
+<!--                <a href="{{ url_for('main.passwords') }}">Passwords</a>-->
+<!--                <a href="{{ url_for('main.logout') }}">Logout</a>-->
             </div>
 
             {% else %}
-            <div class="nav-left">
-                <a href="{{ url_for('main.landing') }}">RD-Password</a>
-            </div>
-            <div class="nav-right">
-                <a href="{{ url_for('main.login') }}">Login</a>
-                <a href="{{ url_for('main.register') }}">Register</a>
-            </div>
+
             {% endif %}
         </nav>
     </header>
     <main>
-        <div class="sidepanel"></div>
+        <div class="sidepanel">
+            <div class="sidepanel-item"></div>
+            <div class="sidepanel-item"></div>
+            <a class="sidepanel-item-last" href="#">Logout</a>
+        </div>
         <div class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
