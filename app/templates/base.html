@@ -10,6 +10,7 @@
     <script src="https://kit.fontawesome.com/391c04f0d7.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    {% set active_page = request.endpoint %}
     <header>
         <nav>
             <div class="nav-left">
@@ -34,27 +35,30 @@
     <main>
         <div class="sidepanel">
             {% if current_user.is_authenticated %}
+
             <div class="sidepanel-item">
-                <i class="fa-solid fa-gauge active"></i> <a class="active" href="{{ url_for('main.landing') }}">Dashboard</a>
+                <i class="fa-solid fa-gauge {% if active_page == 'main.landing' %}active{% endif %}"></i>
+                <a href="{{ url_for('main.landing') }}" class="{% if active_page == 'main.landing' %}active{% endif %}">Dashboard</a>
             </div>
+
             <div class="sidepanel-item">
-                <i class="fa-solid fa-lock"></i>
-                <a href="{{ url_for('main.passwords') }}">Passwords</a>
+                <i class="fa-solid fa-lock {% if active_page == 'main.passwords' %}active{% endif %}"></i>
+                <a href="{{ url_for('main.passwords') }}" class="{% if active_page == 'main.passwords' %}active{% endif %}">Passwords</a>
             </div>
 
             <a class="sidepanel-item-last" href="{{ url_for('main.logout') }}">Logout</a>
 
             {% else %}
 
-            <div class="sidepanel-item">
-                <i class="fa-solid fa-lock"></i>
-                <a href="{{ url_for('main.login') }}">Login</a>
-            </div>
+        <div class="sidepanel-item">
+            <i class="fa-solid fa-right-to-bracket {% if active_page == 'main.login' %}active{% endif %}"></i>
+            <a href="{{ url_for('main.login') }}" class="{% if active_page == 'main.login' %}active{% endif %}">Login</a>
+        </div>
 
-            <div class="sidepanel-item">
-                <i class="fa-solid fa-lock"></i>
-                <a href="{{ url_for('main.register') }}">Register</a>
-            </div>
+        <div class="sidepanel-item">
+            <i class="fa-solid fa-user-plus {% if active_page == 'main.register' %}active{% endif %}"></i>
+            <a href="{{ url_for('main.register') }}" class="{% if active_page == 'main.register' %}active{% endif %}">Register</a>
+        </div>
 
             {% endif %}
         </div>
