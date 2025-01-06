@@ -21,11 +21,10 @@
                 <div>
                 {% if current_user.is_authenticated %}
                     <div class="left">
-                        <img src="{{ url_for('static', filename='img/person.jpg') }}">
+                        <img src="{{ url_for('main.profile_picture', user_id=current_user.id) }}" alt="Profile Picture">
                     </div>
                     <div class="right">
-                        <h2>James Carter</h2>
-                        <p>Administrator</p>
+                        <h2>{{ current_user.name }}</h2>
                     </div>
                     {% endif %}
                 </div>
@@ -44,6 +43,11 @@
             <div class="sidepanel-item">
                 <i class="fa-solid fa-lock {% if active_page == 'main.passwords' %}active{% endif %}"></i>
                 <a href="{{ url_for('main.passwords') }}" class="{% if active_page == 'main.passwords' %}active{% endif %}">Passwords</a>
+            </div>
+
+            <div class="sidepanel-item">
+                <i class="fa-solid fa-user-cog {% if active_page == 'main.account_settings' %}active{% endif %}"></i>
+                <a href="{{ url_for('main.account_settings') }}" class="{% if active_page == 'main.account_settings' %}active{% endif %}">Account Settings</a>
             </div>
 
             <a class="sidepanel-item-last" href="{{ url_for('main.logout') }}">Logout</a>

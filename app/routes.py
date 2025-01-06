@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, Response
 from flask_login import login_user, login_required, logout_user, current_user
 from wtforms.validators import ValidationError
 
@@ -91,3 +91,18 @@ def landing():
 @login_required
 def passwords():
     return render_template('passwords.html', username=current_user.username)
+
+@main.route('/account-settings')
+@login_required
+def account_settings():
+    return render_template('account_settings.html', username=current_user.username)
+
+@main.route('/profile_picture/<int:user_id>')
+def profile_picture(user_id):
+    user = User.query.get(user_id)
+    if user and user.profile_picture:
+        return Response(user.profile_picture, mimetype='image/png')  # Adjust mimetype if needed
+    else:
+        with open("app/static/img/blank-profile-picture.png", "rb") as f:
+            default_img = f.read()
+        return Response(default_img, mimetype='image/jpeg')
