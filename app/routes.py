@@ -3,7 +3,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from wtforms.validators import ValidationError
 
 from app import db, bcrypt
-from app.forms import RegisterForm, LoginForm
+from app.forms import RegisterForm, LoginForm, AccountSettingsForm
 from app.models import User
 
 from sqlalchemy import or_
@@ -92,10 +92,36 @@ def landing():
 def passwords():
     return render_template('passwords.html', username=current_user.username)
 
-@main.route('/account-settings')
+
+@main.route('/account-settings', methods=['GET', 'POST'])
 @login_required
 def account_settings():
-    return render_template('account_settings.html', username=current_user.username)
+    form = AccountSettingsForm()
+
+    if form.validate_on_submit():
+
+        # Update fields only if changed
+        if form.username.data != current_user.username:
+            current_user.username = form.username.data
+        if form.name.data != current_user.name:
+            current_user.name = form.name.data
+        if form.email.data != current_user.email:
+            current_user.email = form.email.data
+        if form.password.data:
+            current_user.password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        if form.profile_picture.data:
+            current_user.profile_picture = form.profile_picture.data.read()
+
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('main.account_settings'))
+
+    # Display form validation errors using flash
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(f"{error}", 'danger')
+
+    return render_template('account_settings.html', form=form)
 
 @main.route('/profile_picture/<int:user_id>')
 def profile_picture(user_id):

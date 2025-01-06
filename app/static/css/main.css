@@ -71,11 +71,12 @@ header nav {
 }
 
 .nav-right > div .left img {
-
+    width: 40px;
     height: 40px;
     border-radius: 100px;
-
+    object-fit: cover;
 }
+
 
 .nav-right > div .right {
 
@@ -242,58 +243,108 @@ main {
 
 }
 
-/*FORMS*/
+/* Modernized Forms */
 
 .form-container {
-    width: 300px;
-    margin: 50px auto;
-    padding: 20px;
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 25px;
     background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
 }
 
 .form-container h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    position: relative;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
 }
 
 .form-control {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 6px;
     box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #4d82fd;
+    box-shadow: 0 0 8px rgba(77, 130, 253, 0.2);
+    outline: none;
 }
 
 .btn {
     display: block;
     width: 100%;
-    padding: 10px;
-    background: #007bff;
+    padding: 12px;
+    background: #4d82fd;
     color: #fff;
+    font-size: 16px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
 }
 
 .btn:hover {
-    background: #0056b3;
+    background: #3a6be0;
+}
+
+.btn:active {
+    transform: scale(0.98);
 }
 
 .form-container p {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 18px;
+    font-size: 14px;
+    color: #666;
 }
+
+.form-container p a {
+    color: #4d82fd;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.form-container p a:hover {
+    text-decoration: underline;
+}
+
+/* Profile Picture Upload */
+.form-control-file {
+    display: block;
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #f8f9fa;
+    transition: background 0.3s ease-in-out;
+}
+
+.form-control-file:hover {
+    background: #e9ecef;
+}
+
 
 
 .alert {
