@@ -27,6 +27,7 @@ def register():
                 hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
                 new_user = User(
                     username=form.username.data,
+                    name=form.name.data,  # Added name field
                     email=form.email.data,
                     password=hashed_password
                 )
