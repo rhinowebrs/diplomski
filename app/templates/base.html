@@ -12,13 +12,13 @@
 <body>
     <header>
         <nav>
-            {% if current_user.is_authenticated %}
             <div class="nav-left">
                 <img src="{{ url_for('static', filename='img/logo.png') }}">
                 <a href="{{ url_for('main.landing') }}">RD Password</a>
             </div>
             <div class="nav-right">
                 <div>
+                {% if current_user.is_authenticated %}
                     <div class="left">
                         <img src="{{ url_for('static', filename='img/person.jpg') }}">
                     </div>
@@ -26,16 +26,14 @@
                         <h2>James Carter</h2>
                         <p>Administrator</p>
                     </div>
+                    {% endif %}
                 </div>
             </div>
-
-            {% else %}
-
-            {% endif %}
         </nav>
     </header>
     <main>
         <div class="sidepanel">
+            {% if current_user.is_authenticated %}
             <div class="sidepanel-item">
                 <i class="fa-solid fa-gauge active"></i> <a class="active" href="{{ url_for('main.landing') }}">Dashboard</a>
             </div>
@@ -43,26 +41,22 @@
                 <i class="fa-solid fa-lock"></i>
                 <a href="{{ url_for('main.passwords') }}">Passwords</a>
             </div>
-                <div class="sidepanel-item">
-                    <i class="fa-solid fa-user-shield"></i>
-                    <a href="#">Security</a>
-                </div>
 
-                <div class="sidepanel-item">
-                    <i class="fa-solid fa-key"></i>
-                    <a href="#">Generate Password</a>
-                </div>
+            <a class="sidepanel-item-last" href="{{ url_for('main.logout') }}">Logout</a>
 
-                <div class="sidepanel-item">
-                    <i class="fa-solid fa-shield-alt"></i>
-                    <a href="#">Password Health</a>
-                </div>
+            {% else %}
 
-                <div class="sidepanel-item">
-                    <i class="fa-solid fa-gear"></i>
-                    <a href="#">Settings</a>
-                </div>
-            <a class="sidepanel-item-last" href="#">Logout</a>
+            <div class="sidepanel-item">
+                <i class="fa-solid fa-lock"></i>
+                <a href="{{ url_for('main.login') }}">Login</a>
+            </div>
+
+            <div class="sidepanel-item">
+                <i class="fa-solid fa-lock"></i>
+                <a href="{{ url_for('main.register') }}">Register</a>
+            </div>
+
+            {% endif %}
         </div>
         <div class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
