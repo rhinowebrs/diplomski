@@ -3,8 +3,8 @@ from flask_login import login_user, login_required, logout_user, current_user
 from wtforms.validators import ValidationError
 
 from app import db, bcrypt
-from app.forms import RegisterForm, LoginForm, AccountSettingsForm
-from app.models import User
+from app.forms import RegisterForm, LoginForm, AccountSettingsForm, PasswordForm
+from app.models import User, Password
 
 from sqlalchemy import or_
 
@@ -132,3 +132,26 @@ def profile_picture(user_id):
         with open("app/static/img/blank-profile-picture.png", "rb") as f:
             default_img = f.read()
         return Response(default_img, mimetype='image/jpeg')
+
+
+@main.route('/add_password', methods=['GET', 'POST'])
+@login_required
+def add_password():
+    form = PasswordForm()
+    if form.validate_on_submit():
+        new_password = Password(
+            name=form.name.data,
+            url=form.url.data,
+            password=form.password.data,
+            user_id=current_user.id
+        )
+        db.session.add(new_password)
+        db.session.commit()
+        flash('Password saved successfully', 'success')
+        return redirect(url_for('main.dashboard'))
+    else:
+        for field, error_messages in form.errors.items():
+            for error in error_messages:
+                flash(f"{error}", 'danger')
+
+    return render_template('add_password.html', form=form)

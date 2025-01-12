@@ -15,3 +15,16 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.username}', '{self.name}', '{self.email}')"
+
+
+class Password(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    url = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(128), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    user = db.relationship('User', backref=db.backref('passwords', lazy=True))
+
+    def __repr__(self):
+        return f"Password('{self.name}', '{self.url}', '****')"

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, FileField
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length, URL
 from flask_wtf.file import FileAllowed
 from .models import User
 from flask_login import current_user
@@ -73,3 +73,14 @@ class AccountSettingsForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('This email is already registered. Please choose a different one.')
+
+
+class PasswordForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    url = StringField('URL', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Save Password')
+
+    def validate_password(self, password):
+        if len(password.data) < 8:
+            raise ValidationError('Password must be at least 8 characters long.')
