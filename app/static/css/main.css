@@ -16,6 +16,8 @@ header nav {
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
+    position: fixed;
+    z-index: 950;
 }
 
 .nav-left {
@@ -119,7 +121,7 @@ main {
     height: 100%;
     background-color: #fff;
     box-sizing: border-box;
-    margin-top: 50px;
+    margin-top: 110px;
 
 }
 
@@ -193,6 +195,7 @@ main {
     min-height: calc(100vh - 60px);
     margin-left: 300px;
     background-color: #f0f3f7;
+    margin-top: 60px;
 
 }
 
