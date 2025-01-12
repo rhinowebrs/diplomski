@@ -8,26 +8,22 @@ from app.models import User, Password
 
 from sqlalchemy import or_
 
-
 main = Blueprint('main', __name__)
-
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        # Check if username or email already exists
         existing_user_by_username = User.query.filter_by(username=form.username.data).first()
         if existing_user_by_username:
             flash('Username already exists. Please choose a different one.', 'danger')
         else:
             try:
                 form.validate_email(form.email)
-                # Proceed to create a new user
                 hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
                 new_user = User(
                     username=form.username.data,
-                    name=form.name.data,  # Added name field
+                    name=form.name.data,
                     email=form.email.data,
                     password=hashed_password
                 )
@@ -38,7 +34,6 @@ def register():
             except ValidationError as e:
                 flash(str(e), 'danger')
     else:
-        # Flash validation errors
         for field, error_messages in form.errors.items():
             for error in error_messages:
                 flash(f"{error}", 'danger')
@@ -50,14 +45,11 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        # Attempt to find user by email OR username
         user = User.query.filter(
             or_(User.email == form.email.data, User.username == form.email.data)
         ).first()
 
-        # Check if the user was found
         if user:
-            # Compare provided password with the hashed password in DB
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash('Logged in successfully!', 'success')
@@ -127,7 +119,7 @@ def account_settings():
 def profile_picture(user_id):
     user = User.query.get(user_id)
     if user and user.profile_picture:
-        return Response(user.profile_picture, mimetype='image/png')  # Adjust mimetype if needed
+        return Response(user.profile_picture, mimetype='image/png')
     else:
         with open("app/static/img/blank-profile-picture.png", "rb") as f:
             default_img = f.read()
@@ -139,7 +131,6 @@ def profile_picture(user_id):
 def add_password():
     form = PasswordForm()
 
-    # Fetch and print decrypted passwords for the current user
     all_passwords = Password.query.filter_by(user_id=current_user.id).all()
     print("\nStored Passwords:")
     for pwd in all_passwords:
@@ -152,7 +143,7 @@ def add_password():
             url=url_value,
             user_id=current_user.id
         )
-        new_password.set_password(form.password.data)  # Encrypt before saving
+        new_password.set_password(form.password.data)
 
         db.session.add(new_password)
         db.session.commit()
