@@ -85,7 +85,7 @@ def passwords():
     return render_template('passwords.html', username=current_user.username)
 
 
-@main.route('/account-settings', methods=['GET', 'POST'])
+@main.route('/account_settings', methods=['GET', 'POST'])
 @login_required
 def account_settings():
     form = AccountSettingsForm()
