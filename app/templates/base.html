@@ -46,6 +46,11 @@
             </div>
 
             <div class="sidepanel-item">
+                <i class="fa-solid fa-plus {% if active_page == 'main.add_password' %}active{% endif %}"></i>
+                <a href="{{ url_for('main.add_password') }}" class="{% if active_page == 'main.add_password' %}active{% endif %}">Add Password</a>
+            </div>
+
+            <div class="sidepanel-item">
                 <i class="fa-solid fa-user-cog {% if active_page == 'main.account_settings' %}active{% endif %}"></i>
                 <a href="{{ url_for('main.account_settings') }}" class="{% if active_page == 'main.account_settings' %}active{% endif %}">Account Settings</a>
             </div>

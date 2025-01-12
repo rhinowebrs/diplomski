@@ -138,14 +138,22 @@ def profile_picture(user_id):
 @login_required
 def add_password():
     form = PasswordForm()
+
+    # Fetch and print decrypted passwords for the current user
+    all_passwords = Password.query.filter_by(user_id=current_user.id).all()
+    print("\nStored Passwords:")
+    for pwd in all_passwords:
+        print(f"Name: {pwd.name}, URL: {pwd.url}, Password: {pwd.get_password()}")
+
     if form.validate_on_submit():
         url_value = "local" if form.no_url.data else form.url.data
         new_password = Password(
             name=form.name.data,
             url=url_value,
-            password=form.password.data,
             user_id=current_user.id
         )
+        new_password.set_password(form.password.data)  # Encrypt before saving
+
         db.session.add(new_password)
         db.session.commit()
         flash('Password saved successfully', 'success')

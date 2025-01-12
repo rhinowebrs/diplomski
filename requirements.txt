@@ -6,3 +6,4 @@ click~=8.1.7
 Flask-Migrate~=4.0.7
 alembic~=1.14.0
 SQLAlchemy~=2.0.36
+cryptography
