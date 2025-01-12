@@ -345,7 +345,66 @@ main {
     background: #e9ecef;
 }
 
+/* Checkbox Styling */
 
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-check-input {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-check-input:checked {
+    background-color: #4d82fd;
+    border-color: #4d82fd;
+}
+
+.form-check-label {
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 8px rgba(77, 130, 253, 0.2);
+    outline: none;
+}
+
+/*PASSWORD FORM*/
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+    transition: color 0.3s ease-in-out;
+    user-select: none;
+}
+
+.toggle-password i {
+    transition: transform 0.2s ease-in-out;
+}
+
+.toggle-password:hover {
+    color: #4d82fd;
+}
 
 .alert {
     padding: 1rem;

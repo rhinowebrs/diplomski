@@ -139,16 +139,17 @@ def profile_picture(user_id):
 def add_password():
     form = PasswordForm()
     if form.validate_on_submit():
+        url_value = "local" if form.no_url.data else form.url.data
         new_password = Password(
             name=form.name.data,
-            url=form.url.data,
+            url=url_value,
             password=form.password.data,
             user_id=current_user.id
         )
         db.session.add(new_password)
         db.session.commit()
         flash('Password saved successfully', 'success')
-        return redirect(url_for('main.dashboard'))
+        return redirect(url_for('main.landing'))
     else:
         for field, error_messages in form.errors.items():
             for error in error_messages:

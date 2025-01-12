@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, FileField
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length, URL
+from wtforms.fields.simple import BooleanField
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length, URL, Optional
 from flask_wtf.file import FileAllowed
 from .models import User
 from flask_login import current_user
@@ -77,8 +78,10 @@ class AccountSettingsForm(FlaskForm):
 
 class PasswordForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    url = StringField('URL', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    url = StringField('URL', validators=[Optional(), URL()])
+    no_url = BooleanField('No URL')
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, message='Password must be at least 8 characters long.')])
+    show_password = BooleanField('Show Password')
     submit = SubmitField('Save Password')
 
     def validate_password(self, password):
