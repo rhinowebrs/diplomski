@@ -113,6 +113,39 @@ def reveal_password():
     return jsonify({"success": True, "password": revealed})
 
 
+@main.route('/passwords/delete', methods=['POST'])
+@login_required
+def delete_password():
+    data = request.get_json(silent=True) or {}
+    password_id = data.get('password_id')
+    account_password = data.get('account_password', '')
+
+    # Validate ID
+    try:
+        password_id = int(password_id)
+    except (TypeError, ValueError):
+        return jsonify({"success": False, "message": "Invalid request."}), 400
+
+    # Verify the user's account password
+    if not bcrypt.check_password_hash(current_user.password, account_password):
+        return jsonify({"success": False, "message": "Incorrect account password."}), 403
+
+    # Fetch and verify ownership
+    entry = Password.query.filter_by(id=password_id, user_id=current_user.id).first()
+    if not entry:
+        return jsonify({"success": False, "message": "Password not found."}), 404
+
+    # Delete entry
+    try:
+        db.session.delete(entry)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        return jsonify({"success": False, "message": "Failed to delete password."}), 500
+
+    return jsonify({"success": True})
+
+
 @main.route('/account_settings', methods=['GET', 'POST'])
 @login_required
 def account_settings():
