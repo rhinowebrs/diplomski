@@ -299,9 +299,9 @@ main {
 }
 
 /* Color accents */
-.kpi--blue { border-top-color: #4d82fd; background: linear-gradient(180deg, #f6f9ff, #ffffff 45%); }
+.kpi--blue { border-top-color: #F1B07F; background: linear-gradient(180deg, #f6f9ff, #ffffff 45%); }
 .kpi--purple { border-top-color: #C351C1; background: linear-gradient(180deg, #fcf5fd, #ffffff 45%); }
-.kpi--teal { border-top-color: #10b981; background: linear-gradient(180deg, #f2fbf7, #ffffff 45%); }
+.kpi--teal { border-top-color: #4d82fd; background: linear-gradient(180deg, #f2fbf7, #ffffff 45%); }
 
 .charts-grid {
     display: grid;
