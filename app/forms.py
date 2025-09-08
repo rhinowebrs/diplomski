@@ -84,6 +84,14 @@ class PasswordForm(FlaskForm):
     show_password = BooleanField('Show Password')
     submit = SubmitField('Save Password')
 
+    def validate(self, extra_validators=None):
+        rv = super().validate(extra_validators=extra_validators)
+        # Cross-field rule: if "No URL" is not checked, URL is required
+        if not self.no_url.data and (not self.url.data or not self.url.data.strip()):
+            self.url.errors.append('URL is required unless "No URL" is checked.')
+            return False
+        return rv
+
     def validate_password(self, password):
-        if len(password.data) < 8:
+        if len(password.data or '') < 8:
             raise ValidationError('Password must be at least 8 characters long.')

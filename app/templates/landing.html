@@ -10,14 +10,26 @@
     </div>
 
     <div class="charts-section">
+        <div class="kpis-section">
+            <div class="kpis-grid">
+                <div class="kpi-card kpi--blue">
+                    <div class="kpi-label">With URL</div>
+                    <div class="kpi-value">{{ with_url_count }}</div>
+                </div>
+                <div class="kpi-card kpi--purple">
+                    <div class="kpi-label">Without URL</div>
+                    <div class="kpi-value">{{ without_url_count }}</div>
+                </div>
+                <div class="kpi-card kpi--teal">
+                    <div class="kpi-label">Total Unlocks</div>
+                    <div class="kpi-value">{{ unlock_values | sum }}</div>
+                </div>
+            </div>
+        </div>
         <div class="charts-grid charts-grid-2">
             <div class="chart-card chart-card-large">
                 <div class="chart-card-header">
                     <h3>With URL vs Without URL</h3>
-                    <div class="chart-stats">
-                        <span class="stat-badge stat-primary">With URL: {{ with_url_count }}</span>
-                        <span class="stat-badge stat-muted">Without URL: {{ without_url_count }}</span>
-                    </div>
                 </div>
                 <div class="chart-wrapper">
                     <canvas id="chartUrlSplit"></canvas>
@@ -26,9 +38,6 @@
             <div class="chart-card chart-card-large">
                 <div class="chart-card-header">
                     <h3>Password Unlocks</h3>
-                    <div class="chart-stats">
-                        <span class="stat-badge stat-primary">Total unlocks: {{ unlock_values | sum }}</span>
-                    </div>
                 </div>
                 <div class="chart-wrapper">
                     <canvas id="chartUnlocksBar"></canvas>
