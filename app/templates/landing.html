@@ -8,4 +8,60 @@
         </div>
         <div class="right"></div>
     </div>
+
+    <div class="charts-section">
+        <div class="charts-grid charts-grid-2">
+            <div class="chart-card chart-card-large">
+                <div class="chart-card-header">
+                    <h3>With URL vs Without URL</h3>
+                    <div class="chart-stats">
+                        <span class="stat-badge stat-primary">With URL: {{ with_url_count }}</span>
+                        <span class="stat-badge stat-muted">Without URL: {{ without_url_count }}</span>
+                    </div>
+                </div>
+                <canvas id="chartUrlSplit" height="220"></canvas>
+            </div>
+            <!-- Placeholder for future chart to keep two-per-row layout -->
+            <div class="chart-card chart-card-large placeholder-card">
+                <div class="placeholder">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <div>Another insight coming soon</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        (function(){
+            const withUrl = {{ with_url_count | int }};
+            const withoutUrl = {{ without_url_count | int }};
+            const ctx = document.getElementById('chartUrlSplit').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['With URL', 'Without URL'],
+                    datasets: [{
+                        data: [withUrl, withoutUrl],
+                        backgroundColor: ['#4d82fd', '#C351C1'],
+                        borderWidth: 0,
+                        cutout: '60%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1,
+                    plugins: {
+                        legend: { display: true, position: 'bottom', labels: { usePointStyle: true } },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => ` ${ctx.label}: ${ctx.parsed}`
+                            }
+                        }
+                    }
+                }
+            });
+        })();
+    </script>
 {% endblock %}

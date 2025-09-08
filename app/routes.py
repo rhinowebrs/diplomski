@@ -6,7 +6,7 @@ from app import db, bcrypt
 from app.forms import RegisterForm, LoginForm, AccountSettingsForm, PasswordForm
 from app.models import User, Password
 
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 
 main = Blueprint('main', __name__)
 
@@ -77,7 +77,16 @@ def logout():
 @main.route('/')
 @login_required
 def landing():
-    return render_template('landing.html', username=current_user.username)
+    total_count = Password.query.filter_by(user_id=current_user.id).count()
+    without_url_count = Password.query.filter_by(user_id=current_user.id).filter(func.lower(Password.url) == 'local').count()
+    with_url_count = max(0, total_count - without_url_count)
+
+    return render_template(
+        'landing.html',
+        username=current_user.username,
+        with_url_count=with_url_count,
+        without_url_count=without_url_count,
+    )
 
 @main.route('/passwords')
 @login_required
