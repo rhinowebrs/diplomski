@@ -19,13 +19,19 @@
                         <span class="stat-badge stat-muted">Without URL: {{ without_url_count }}</span>
                     </div>
                 </div>
-                <canvas id="chartUrlSplit" height="220"></canvas>
+                <div class="chart-wrapper">
+                    <canvas id="chartUrlSplit"></canvas>
+                </div>
             </div>
-            <!-- Placeholder for future chart to keep two-per-row layout -->
-            <div class="chart-card chart-card-large placeholder-card">
-                <div class="placeholder">
-                    <i class="fa-solid fa-chart-pie"></i>
-                    <div>Another insight coming soon</div>
+            <div class="chart-card chart-card-large">
+                <div class="chart-card-header">
+                    <h3>Password Unlocks</h3>
+                    <div class="chart-stats">
+                        <span class="stat-badge stat-primary">Total unlocks: {{ unlock_values | sum }}</span>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="chartUnlocksBar"></canvas>
                 </div>
             </div>
         </div>
@@ -50,14 +56,54 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true,
-                    aspectRatio: 1,
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: { display: true, position: 'bottom', labels: { usePointStyle: true } },
                         tooltip: {
                             callbacks: {
                                 label: (ctx) => ` ${ctx.label}: ${ctx.parsed}`
                             }
+                        }
+                    }
+                }
+            });
+
+            // Bar chart: password unlock counts
+            const unlockLabels = {{ unlock_labels | tojson }};
+            const unlockValues = {{ unlock_values | tojson }};
+            const barCanvas = document.getElementById('chartUnlocksBar');
+            const ctxBar = barCanvas.getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: unlockLabels,
+                    datasets: [{
+                        label: 'Unlocks',
+                        data: unlockValues,
+                        backgroundColor: '#4d82fd',
+                        maxBarThickness: 28,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // horizontal bars for better label fit
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => ` ${ctx.parsed.x}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: { precision: 0 }
+                        },
+                        y: {
+                            ticks: { autoSkip: false, font: { size: 11 } }
                         }
                     }
                 }

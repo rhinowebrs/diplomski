@@ -311,9 +311,14 @@ main {
 }
 
 .chart-card canvas {
-    width: 50% !important;
-    height: auto !important;
-    margin: 0 auto;
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+/* Fixed chart height wrapper */
+.chart-wrapper {
+    height: 400px;
 }
 
 .placeholder-card .placeholder {

@@ -81,11 +81,18 @@ def landing():
     without_url_count = Password.query.filter_by(user_id=current_user.id).filter(func.lower(Password.url) == 'local').count()
     with_url_count = max(0, total_count - without_url_count)
 
+    # Data for bar chart: unlocks per password
+    user_passwords = Password.query.filter_by(user_id=current_user.id).all()
+    unlock_labels = [p.name for p in user_passwords]
+    unlock_values = [int(p.unlock_count or 0) for p in user_passwords]
+
     return render_template(
         'landing.html',
         username=current_user.username,
         with_url_count=with_url_count,
         without_url_count=without_url_count,
+        unlock_labels=unlock_labels,
+        unlock_values=unlock_values,
     )
 
 @main.route('/passwords')
@@ -118,6 +125,15 @@ def reveal_password():
         revealed = entry.get_password()
     except Exception:
         return jsonify({"success": False, "message": "Unable to decrypt password."}), 500
+
+    # Increment unlock counter upon successful reveal
+    try:
+        entry.unlock_count = (entry.unlock_count or 0) + 1
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        # Even if counting fails, still return the password
+        pass
 
     return jsonify({"success": True, "password": revealed})
 

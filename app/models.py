@@ -47,6 +47,7 @@ class Password(db.Model):
     url = db.Column(db.String(255), nullable=False)
     password_encrypted = db.Column(db.String(256), nullable=False)  # Encrypted password storage
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    unlock_count = db.Column(db.Integer, nullable=False, default=0)
 
     user = db.relationship('User', backref=db.backref('passwords', lazy=True))
 
