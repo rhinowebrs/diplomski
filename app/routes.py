@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, Response
+from flask import Blueprint, render_template, redirect, url_for, flash, request, Response, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 from wtforms.validators import ValidationError
 
@@ -82,7 +82,35 @@ def landing():
 @main.route('/passwords')
 @login_required
 def passwords():
-    return render_template('passwords.html', username=current_user.username)
+    user_passwords = Password.query.filter_by(user_id=current_user.id).all()
+    return render_template('passwords.html', username=current_user.username, passwords=user_passwords)
+
+
+@main.route('/passwords/reveal', methods=['POST'])
+@login_required
+def reveal_password():
+    data = request.get_json(silent=True) or {}
+    password_id = data.get('password_id')
+    account_password = data.get('account_password', '')
+
+    if not password_id or not isinstance(password_id, int):
+        return jsonify({"success": False, "message": "Invalid request."}), 400
+
+    # Verify the user's account password
+    if not bcrypt.check_password_hash(current_user.password, account_password):
+        return jsonify({"success": False, "message": "Incorrect account password."}), 403
+
+    # Fetch the password entry and ensure it belongs to the current user
+    entry = Password.query.filter_by(id=password_id, user_id=current_user.id).first()
+    if not entry:
+        return jsonify({"success": False, "message": "Password not found."}), 404
+
+    try:
+        revealed = entry.get_password()
+    except Exception:
+        return jsonify({"success": False, "message": "Unable to decrypt password."}), 500
+
+    return jsonify({"success": True, "password": revealed})
 
 
 @main.route('/account_settings', methods=['GET', 'POST'])
