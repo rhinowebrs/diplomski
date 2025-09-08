@@ -471,6 +471,18 @@ main {
     word-break: break-all;
 }
 
+.password-url .no-link {
+    color: #888;
+}
+
+.password-url .link-placeholder {
+    color: #4d82fd;
+    font-weight: 500;
+}
+.password-url .link-placeholder i {
+    margin-right: 6px;
+}
+
 .password-url a {
     color: #4d82fd;
     text-decoration: none;
