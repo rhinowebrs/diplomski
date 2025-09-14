@@ -80,7 +80,13 @@ class PasswordForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     url = StringField('URL', validators=[Optional(), URL()])
     no_url = BooleanField('No URL')
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, message='Password must be at least 8 characters long.')])
+    password = PasswordField(
+        'Password',
+        validators=[
+            DataRequired(),
+            Length(min=8, max=32, message='Password must be between 8 and 32 characters long.')
+        ]
+    )
     show_password = BooleanField('Show Password')
     submit = SubmitField('Save Password')
 
