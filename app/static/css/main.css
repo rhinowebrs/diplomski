@@ -33,6 +33,21 @@ header nav {
 
 }
 
+/* Mobile menu button (hidden on desktop) */
+.mobile-menu-btn {
+    display: none;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #e6e9ef;
+    background: #fff;
+    border-radius: 6px;
+    color: #333;
+    cursor: pointer;
+}
+.mobile-menu-btn i {
+    font-size: 18px;
+}
+
 .nav-left img {
 
     height: 30px;
@@ -52,7 +67,12 @@ header nav {
     height: 100%;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 
+}
+
+.nav-right .user-info {
+    display: flex;
 }
 
 .nav-right > div {
@@ -187,6 +207,39 @@ main {
     text-align: center;
     line-height: 40px;
 
+}
+
+/* User info inside sidepanel (mobile) */
+.sidepanel-user {
+    display: none; /* hidden on desktop to keep layout unchanged */
+}
+
+.sidepanel-user img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sidepanel-user .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidepanel-user .name {
+    font-weight: 600;
+    color: #000;
+}
+
+/* Backdrop for mobile sidepanel */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 900;
+}
+.backdrop.hidden {
+    display: none;
 }
 
 .container {
@@ -388,6 +441,72 @@ main {
 
 @media (max-width: 1000px) {
     .charts-grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Mobile responsive layout */
+@media (max-width: 768px) {
+
+    header nav {
+
+        padding: 0 10px;
+
+    }
+
+    .nav-right .user-info { display: none; }
+    .sidepanel-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 16px;
+        border-bottom: 1px solid #f0f3f7;
+    }
+    .nav-left {
+        width: auto;
+        border-right: none;
+        padding-left: 6px;
+        justify-content: flex-start;
+        gap: 8px;
+    }
+    .nav-left a { font-size: 16px; padding-left: 6px; }
+    .nav-right > div { margin-right: 12px; }
+    .mobile-menu-btn { display: inline-flex; align-items: center; justify-content: center; }
+
+    .container {
+        margin-left: 0;
+    }
+
+    .sidepanel {
+        top: 60px;
+        left: 0;
+        margin-top: 0;
+        height: calc(100% - 60px);
+        transform: translateX(-102%);
+        transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+        z-index: 1000;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .sidepanel.open {
+        transform: translateX(0);
+    }
+
+    .dashboard-top {
+        width: calc(100% - 24px);
+        margin: 16px auto;
+        height: auto;
+        padding: 16px 0;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .dashboard-top .left { width: 100%; padding-left: 18px; }
+    .dashboard-top .right { width: 100%; }
+    .dashboard-top .left h2 { font-size: 20px; }
+    .dashboard-top .left p { font-size: 14px; }
+
+    .charts-grid-2 { grid-template-columns: 1fr; }
+    .chart-wrapper { height: 260px; }
+
+    .form-container { margin: 20px 12px; padding: 18px; }
+    .btn { padding: 12px; font-size: 15px; }
 }
 
 /* Modernized Forms */

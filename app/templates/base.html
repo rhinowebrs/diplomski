@@ -14,11 +14,11 @@
     <header>
         <nav>
             <div class="nav-left">
-                <img src="{{ url_for('static', filename='img/logo.png') }}">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
                 <a href="{{ url_for('main.landing') }}">RD Password</a>
             </div>
             <div class="nav-right">
-                <div>
+                <div class="user-info">
                 {% if current_user.is_authenticated %}
                     <div class="left">
                         <img src="{{ url_for('main.profile_picture', user_id=current_user.id) }}" alt="Profile Picture">
@@ -28,12 +28,22 @@
                     </div>
                     {% endif %}
                 </div>
+                <button class="mobile-menu-btn" id="menuToggle" aria-label="Open menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
         </nav>
     </header>
+    <div class="backdrop hidden" id="backdrop"></div>
     <main>
         <div class="sidepanel">
             {% if current_user.is_authenticated %}
+            <div class="sidepanel-user">
+                <img src="{{ url_for('main.profile_picture', user_id=current_user.id) }}" alt="Profile Picture">
+                <div class="info">
+                    <div class="name">{{ current_user.name }}</div>
+                </div>
+            </div>
 
             <div class="sidepanel-item">
                 <i class="fa-solid fa-gauge {% if active_page == 'main.landing' %}active{% endif %}"></i>
@@ -86,5 +96,34 @@
         {% block content %}{% endblock %}
         </div>
     </main>
+    <script>
+        (function(){
+            const sidepanel = document.querySelector('.sidepanel');
+            const menuBtn = document.getElementById('menuToggle');
+            const backdrop = document.getElementById('backdrop');
+
+            function openMenu(){
+                sidepanel.classList.add('open');
+                backdrop.classList.remove('hidden');
+            }
+            function closeMenu(){
+                sidepanel.classList.remove('open');
+                backdrop.classList.add('hidden');
+            }
+            function toggleMenu(){
+                if (sidepanel.classList.contains('open')) closeMenu(); else openMenu();
+            }
+
+            if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if (backdrop) backdrop.addEventListener('click', closeMenu);
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+            // Close on route/link click inside sidepanel (mobile)
+            sidepanel.addEventListener('click', (e) => {
+                const target = e.target.closest('a');
+                if (target) closeMenu();
+            });
+        })();
+    </script>
 </body>
 </html>
